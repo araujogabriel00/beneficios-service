@@ -15,6 +15,7 @@ Princípios que valem para todos os incrementos. Mudar um deles exige um ADR.
 5. **Toda alteração de saldo é idempotente e rastreável.** Gera um evento de domínio e pode ser repetida sem efeito duplicado.
 6. **Decisão de arquitetura vira ADR** em `docs/adr/`, com contexto, alternativas e consequências.
 7. **Nada inventado.** README, ADRs e currículo só trazem números medidos.
+8. **Cada funcionalidade nova tem a sua própria spec** em `docs/specs/`, com história, regras e critérios de aceite, aprovada antes do código (ADR-0008). Esta `spec.md` segue como spec do serviço e do incremento 1.
 
 ## Contexto, escopo e linguagem ubíqua
 

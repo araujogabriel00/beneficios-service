@@ -16,6 +16,7 @@ Serviço de benefícios (vale-refeição e vale-alimentação). A fonte da verda
 5. **Toda alteração de saldo é idempotente e rastreável:** gera evento de domínio (`BenefitCredited`, `PurchaseDebited`, `PurchaseReversed`) e respeita a chave de idempotência (RN-04).
 6. **Decisão de arquitetura vira ADR** em `docs/adr/`.
 7. **Nada inventado.** README, ADRs e currículo só trazem números medidos.
+8. **Funcionalidade nova tem spec própria** em `docs/specs/<funcionalidade>.md` (história, regras, critérios CA-xx.y), escrita e aprovada antes do código. Não acrescente funcionalidade nova a `spec.md`; ela só ganha um link para a nova spec.
 
 ## Convenções
 

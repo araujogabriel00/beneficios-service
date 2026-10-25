@@ -125,6 +125,7 @@ curl localhost:8080/wallets/{id}
 ## Documentação
 
 - [`spec.md`](spec.md): escopo, regras de negócio, critérios de aceite e tarefas.
+- [`docs/specs/`](docs/specs): uma spec por funcionalidade nova.
 - [`docs/adr/`](docs/adr): decisões de arquitetura.
 - [`docs/diario-ia.md`](docs/diario-ia.md): uso de IA no desenvolvimento.
 

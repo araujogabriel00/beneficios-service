@@ -4,7 +4,7 @@ Serviço de estudo que mantém a carteira de vale-refeição e vale-alimentaçã
 
 A especificação completa está em [`docs/spec.md`](docs/spec.md); ela é a fonte da verdade. Este repositório cobre o **incremento 1**: domínio, casos de uso, persistência em memória, API REST, Resilience4j e eventos em log.
 
-**Stack:** Java 21, Spring Boot 3.5, Gradle (Kotlin DSL), Resilience4j, springdoc-openapi, JUnit 5, AssertJ e ArchUnit.
+**Stack:** Java 21, Spring Boot 3.5, Gradle (Kotlin DSL), Resilience4j, springdoc-openapi, Lombok, MapStruct, JUnit 5, AssertJ e ArchUnit.
 
 ## O que o serviço faz
 
@@ -75,7 +75,7 @@ beneficios-service/
 │   │   ├── service/             WalletService, PurchaseService, WalletLocks
 │   │   └── exception/           NotFoundException, RequestInProgressException
 │   ├── adapters/
-│   │   ├── inbound/rest/        controllers, ApiExceptionHandler, response/
+│   │   ├── inbound/rest/        controllers, ApiExceptionHandler, response/, mapper/
 │   │   └── outbound/
 │   │       ├── persistence/     repositórios em memória
 │   │       ├── messaging/       publicador de eventos em log

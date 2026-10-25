@@ -114,6 +114,7 @@ Cada critério (CA) vira um teste com o mesmo identificador no nome.
 | Arquitetura | DDD + hexagonal (ports and adapters), verificada por ArchUnit | 1 |
 | Resiliência | Resilience4j (circuit breaker, retry) | 1 |
 | Documentação da API | springdoc-openapi (OpenAPI 3, Swagger UI) | 1 |
+| Boilerplate e mapeamento | Lombok (construtores) e MapStruct (mapeamento de objetos nos adaptadores) | 1 |
 | Testes | JUnit 5, AssertJ, ArchUnit, MockMvc | 1 |
 | Testes de integração | Testcontainers | 2 |
 | Banco relacional (ledger) | PostgreSQL, com Spring Data JPA e Flyway | 2 |
@@ -166,7 +167,7 @@ beneficios-service/
 │   │   ├── service/             implementação dos casos de uso, sem Spring
 │   │   └── exception/           NotFoundException, RequestInProgressException
 │   ├── adapters/
-│   │   ├── inbound/rest/        controllers, tratamento de erros, response/
+│   │   ├── inbound/rest/        controllers, tratamento de erros, response/, mapper/
 │   │   └── outbound/
 │   │       ├── persistence/     repositórios em memória
 │   │       ├── messaging/       publicador em log (Kafka no incremento 3)

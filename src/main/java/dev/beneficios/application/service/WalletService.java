@@ -1,25 +1,21 @@
 package dev.beneficios.application.service;
 
 import dev.beneficios.application.exception.NotFoundException;
+import dev.beneficios.domain.model.wallet.Wallet;
+import dev.beneficios.domain.model.wallet.WalletId;
 import dev.beneficios.ports.inbound.CreditBenefit;
 import dev.beneficios.ports.inbound.GetWallet;
 import dev.beneficios.ports.inbound.OpenWallet;
 import dev.beneficios.ports.outbound.DomainEventPublisher;
-import dev.beneficios.domain.model.wallet.Wallet;
-import dev.beneficios.domain.model.wallet.WalletId;
 import dev.beneficios.ports.outbound.WalletRepository;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class WalletService implements OpenWallet, CreditBenefit, GetWallet {
 
     private final WalletRepository wallets;
     private final DomainEventPublisher events;
     private final WalletLocks locks;
-
-    public WalletService(WalletRepository wallets, DomainEventPublisher events, WalletLocks locks) {
-        this.wallets = wallets;
-        this.events = events;
-        this.locks = locks;
-    }
 
     @Override
     public Wallet open(OpenWalletCommand command) {

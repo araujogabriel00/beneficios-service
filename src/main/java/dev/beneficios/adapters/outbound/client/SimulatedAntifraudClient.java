@@ -3,16 +3,14 @@ package dev.beneficios.adapters.outbound.client;
 import dev.beneficios.domain.model.shared.Money;
 import dev.beneficios.domain.model.wallet.WalletId;
 import java.util.concurrent.atomic.AtomicBoolean;
+import lombok.RequiredArgsConstructor;
 
 /** Stands in for the external service: denies purchases above a limit and can be switched off. */
+@RequiredArgsConstructor
 public class SimulatedAntifraudClient implements AntifraudClient {
 
     private final Money denyAbove;
     private final AtomicBoolean available = new AtomicBoolean(true);
-
-    public SimulatedAntifraudClient(Money denyAbove) {
-        this.denyAbove = denyAbove;
-    }
 
     public void setAvailable(boolean value) {
         available.set(value);

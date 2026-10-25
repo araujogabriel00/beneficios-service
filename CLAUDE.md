@@ -44,4 +44,5 @@ Pontos que exigem ler vários arquivos:
 - Ordem de verificação na autorização: estabelecimento → saldo → antifraude (RN-05).
 - Antifraude: Retry (mais externo, ignora `CallNotPermittedException`) → CircuitBreaker → chamada com timeout; o fallback da RN-06 fica fora do Retry.
 - Erros da API em Problem Details (RFC 9457): 400 validação, 404 não encontrado, 409 conflito de estado ou chave em processamento, 422 chave reutilizada com outro conteúdo.
+- Lombok só para construtores (`@RequiredArgsConstructor`) em services, controllers e adaptadores; o `domain` fica sem Lombok. MapStruct só em `adapters` (`adapters/inbound/rest/mapper`), com `componentModel = "spring"`; os agregados não têm getters `getX`, então os mappers usam `expression`/métodos `default`.
 - O projeto compila com `-parameters`; mantenha, pois os controllers dependem dele.

@@ -15,21 +15,21 @@ class ArchitectureTest {
             .that().resideInAPackage("dev.beneficios.domain..")
             .should().dependOnClassesThat().resideInAnyPackage(
                     "dev.beneficios.ports..", "dev.beneficios.application..", "dev.beneficios.adapters..",
-                    "dev.beneficios.config..", "org.springframework..", "io.github.resilience4j..");
+                    "dev.beneficios.config..", "org.springframework..", "io.github.resilience4j..", "org.mapstruct..");
 
     @ArchTest
     static final ArchRule portsDependOnlyOnDomain = noClasses()
             .that().resideInAPackage("dev.beneficios.ports..")
             .should().dependOnClassesThat().resideInAnyPackage(
                     "dev.beneficios.application..", "dev.beneficios.adapters..", "dev.beneficios.config..",
-                    "org.springframework..", "io.github.resilience4j..");
+                    "org.springframework..", "io.github.resilience4j..", "org.mapstruct..");
 
     @ArchTest
     static final ArchRule applicationDoesNotDependOnAdaptersOrFrameworks = noClasses()
             .that().resideInAPackage("dev.beneficios.application..")
             .should().dependOnClassesThat().resideInAnyPackage(
                     "dev.beneficios.adapters..", "dev.beneficios.config..",
-                    "org.springframework..", "io.github.resilience4j..");
+                    "org.springframework..", "io.github.resilience4j..", "org.mapstruct..");
 
     @ArchTest
     static final ArchRule inboundAdaptersDoNotDependOnOutboundAdapters = noClasses()

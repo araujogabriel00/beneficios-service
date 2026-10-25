@@ -2,23 +2,25 @@ package dev.beneficios.application.service;
 
 import dev.beneficios.application.exception.NotFoundException;
 import dev.beneficios.application.exception.RequestInProgressException;
+import dev.beneficios.domain.exception.IdempotencyConflictException;
+import dev.beneficios.domain.model.authorization.Authorization;
+import dev.beneficios.domain.model.authorization.AuthorizationId;
+import dev.beneficios.domain.model.authorization.DenialReason;
+import dev.beneficios.domain.model.authorization.IdempotencyKey;
+import dev.beneficios.domain.model.wallet.BenefitCategory;
+import dev.beneficios.domain.model.wallet.Wallet;
 import dev.beneficios.ports.inbound.AuthorizePurchase;
 import dev.beneficios.ports.inbound.ReversePurchase;
 import dev.beneficios.ports.outbound.AntifraudPort;
-import dev.beneficios.ports.outbound.DomainEventPublisher;
-import dev.beneficios.domain.model.authorization.Authorization;
-import dev.beneficios.domain.model.authorization.AuthorizationId;
 import dev.beneficios.ports.outbound.AuthorizationRepository;
-import dev.beneficios.domain.model.authorization.DenialReason;
-import dev.beneficios.domain.model.authorization.IdempotencyKey;
-import dev.beneficios.domain.exception.IdempotencyConflictException;
-import dev.beneficios.domain.model.wallet.BenefitCategory;
-import dev.beneficios.domain.model.wallet.Wallet;
+import dev.beneficios.ports.outbound.DomainEventPublisher;
 import dev.beneficios.ports.outbound.WalletRepository;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class PurchaseService implements AuthorizePurchase, ReversePurchase {
 
     private final WalletRepository wallets;
@@ -27,15 +29,6 @@ public class PurchaseService implements AuthorizePurchase, ReversePurchase {
     private final DomainEventPublisher events;
     private final WalletLocks locks;
     private final Set<IdempotencyKey> inFlight = ConcurrentHashMap.newKeySet();
-
-    public PurchaseService(WalletRepository wallets, AuthorizationRepository authorizations,
-                           AntifraudPort antifraud, DomainEventPublisher events, WalletLocks locks) {
-        this.wallets = wallets;
-        this.authorizations = authorizations;
-        this.antifraud = antifraud;
-        this.events = events;
-        this.locks = locks;
-    }
 
     @Override
     public Authorization authorize(AuthorizePurchaseCommand command) {

@@ -1,16 +1,14 @@
 package dev.beneficios.adapters.inbound.rest;
 
+import dev.beneficios.adapters.inbound.rest.mapper.AuthorizationRestMapper;
+import dev.beneficios.adapters.inbound.rest.request.AuthorizeRequest;
 import dev.beneficios.adapters.inbound.rest.response.AuthorizationResponse;
-import dev.beneficios.ports.inbound.AuthorizePurchase;
-import dev.beneficios.ports.inbound.AuthorizePurchase.AuthorizePurchaseCommand;
-import dev.beneficios.ports.inbound.ReversePurchase;
 import dev.beneficios.domain.model.authorization.AuthorizationId;
-import dev.beneficios.domain.model.authorization.IdempotencyKey;
-import dev.beneficios.domain.model.authorization.MerchantType;
-import dev.beneficios.domain.model.shared.Money;
-import dev.beneficios.domain.model.wallet.WalletId;
+import dev.beneficios.ports.inbound.AuthorizePurchase;
+import dev.beneficios.ports.inbound.ReversePurchase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,18 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/authorizations")
 @Tag(name = "Authorizations")
+@RequiredArgsConstructor
 public class AuthorizationController {
-
-    public record AuthorizeRequest(String walletId, MerchantType merchantType, long amountCents) {
-    }
 
     private final AuthorizePurchase authorizePurchase;
     private final ReversePurchase reversePurchase;
-
-    public AuthorizationController(AuthorizePurchase authorizePurchase, ReversePurchase reversePurchase) {
-        this.authorizePurchase = authorizePurchase;
-        this.reversePurchase = reversePurchase;
-    }
+    private final AuthorizationRestMapper mapper;
 
     @PostMapping
     @Operation(summary = "Authorize a purchase; approved or denied, idempotent by Idempotency-Key")
@@ -41,14 +33,12 @@ public class AuthorizationController {
         if (request.walletId() == null || request.merchantType() == null) {
             throw new IllegalArgumentException("walletId and merchantType are required");
         }
-        return AuthorizationResponse.from(authorizePurchase.authorize(new AuthorizePurchaseCommand(
-                new IdempotencyKey(idempotencyKey), WalletId.of(request.walletId()), request.merchantType(),
-                Money.ofCents(request.amountCents()))));
+        return mapper.toResponse(authorizePurchase.authorize(mapper.toCommand(idempotencyKey, request)));
     }
 
     @PostMapping("/{id}/reversal")
     @Operation(summary = "Reverse an approved authorization, returning the amount to its category")
     public AuthorizationResponse reverse(@PathVariable String id) {
-        return AuthorizationResponse.from(reversePurchase.reverse(AuthorizationId.of(id)));
+        return mapper.toResponse(reversePurchase.reverse(AuthorizationId.of(id)));
     }
 }

@@ -18,6 +18,42 @@ DDD com arquitetura hexagonal (ports and adapters), em um único módulo Gradle 
 
 O `ArchitectureTest` impede que as dependências apontem para fora.
 
+### Estrutura de pastas
+
+```text
+beneficios-service/
+├── build.gradle.kts, settings.gradle.kts, gradle/libs.versions.toml
+├── src/main/java/dev/beneficios/
+│   ├── BeneficiosApplication.java
+│   ├── domain/
+│   │   ├── model/
+│   │   │   ├── shared/          Money, DomainEvent, AggregateRoot
+│   │   │   ├── wallet/          Wallet, WalletId, BenefitCategory
+│   │   │   ├── authorization/   Authorization, AuthorizationId, IdempotencyKey,
+│   │   │   │                    MerchantType, DenialReason
+│   │   │   └── event/           BenefitCredited, PurchaseDebited, PurchaseReversed
+│   │   └── exception/           InvalidStateException, IdempotencyConflictException,
+│   │                            InsufficientBalanceException
+│   ├── ports/
+│   │   ├── inbound/             OpenWallet, CreditBenefit, AuthorizePurchase,
+│   │   │                        ReversePurchase, GetWallet
+│   │   └── outbound/            WalletRepository, AuthorizationRepository,
+│   │                            AntifraudPort, DomainEventPublisher
+│   ├── application/
+│   │   ├── service/             WalletService, PurchaseService, WalletLocks
+│   │   └── exception/           NotFoundException, RequestInProgressException
+│   ├── adapters/
+│   │   ├── inbound/rest/        controllers, ApiExceptionHandler, response/
+│   │   └── outbound/
+│   │       ├── persistence/     repositórios em memória
+│   │       ├── messaging/       publicador de eventos em log
+│   │       └── client/          antifraude simulado + Resilience4j
+│   └── config/                  BeansConfig
+├── src/main/resources/          application.yml
+├── src/test/java/dev/beneficios/  testes espelhando os pacotes + ArchitectureTest
+└── docs/                        adr/, diario-ia.md
+```
+
 ## Como rodar
 
 Requer JDK 21.

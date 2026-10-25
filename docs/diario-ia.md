@@ -2,7 +2,7 @@
 
 ## 25/10/2026 — Incremento 1
 
-**Ferramenta:** Claude Code, seguindo `spec.md` e as regras do `CLAUDE.md`.
+**Ferramenta:** Claude Code, seguindo `docs/spec.md` e as regras do `CLAUDE.md`.
 
 **O que foi feito com IA:** executei as tarefas T01 a T12 da spec, na ordem, com testes nomeados pelo identificador do critério de aceite.
 

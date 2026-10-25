@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 # beneficios-service
 
-Serviço de benefícios (vale-refeição e vale-alimentação). A fonte da verdade é `spec.md`; leia-a antes de mudar comportamento. Domínio e dados são inventados.
+Serviço de benefícios (vale-refeição e vale-alimentação). A fonte da verdade é `docs/spec.md`; leia-a antes de mudar comportamento. Domínio e dados são inventados.
 
 ## Comandos
 
@@ -26,7 +26,7 @@ Pontos que exigem ler vários arquivos:
 
 ## Onde está o quê
 
-`spec.md` (serviço e incremento 1: regras RN-xx, critérios CA-xx.y, tarefas) · `docs/specs/` (uma spec por funcionalidade nova) · `docs/adr/` (decisões) · `docs/diario-ia.md` (uso de IA).
+`docs/spec.md` (serviço e incremento 1: regras RN-xx, critérios CA-xx.y, tarefas) · `docs/specs/` (uma spec por funcionalidade nova) · `docs/adr/` (decisões) · `docs/diario-ia.md` (uso de IA).
 
 ## Regras (Constituição da spec)
 
@@ -37,7 +37,7 @@ Pontos que exigem ler vários arquivos:
 5. **Toda alteração de saldo é idempotente e rastreável:** gera evento de domínio (`BenefitCredited`, `PurchaseDebited`, `PurchaseReversed`) e respeita a chave de idempotência (RN-04).
 6. **Decisão de arquitetura vira ADR** em `docs/adr/`.
 7. **Nada inventado.** README, ADRs e currículo só trazem números medidos.
-8. **Funcionalidade nova tem spec própria** em `docs/specs/<funcionalidade>.md` (história, regras, critérios CA-xx.y), escrita e aprovada antes do código. Não acrescente funcionalidade nova a `spec.md`; ela só ganha um link para a nova spec.
+8. **Funcionalidade nova tem spec própria** em `docs/specs/<funcionalidade>.md` (história, regras, critérios CA-xx.y), escrita e aprovada antes do código. Não acrescente funcionalidade nova a `docs/spec.md`; ela só ganha um link para a nova spec.
 
 ## Convenções
 

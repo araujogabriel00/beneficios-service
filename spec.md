@@ -8,7 +8,7 @@ Esta spec define o que o serviço faz e como ele será construído, um increment
 
 Princípios que valem para todos os incrementos. Mudar um deles exige um ADR.
 
-1. **Dependências apontam para dentro.** O domínio não conhece aplicação, adaptadores nem frameworks. O Gradle impede isso em tempo de compilação e o ArchUnit cobre o que o Gradle não vê.
+1. **Dependências apontam para dentro.** O domínio não conhece aplicação, adaptadores nem frameworks. O `ArchitectureTest` (ArchUnit) verifica isso (ADR-0007).
 2. **Linguagem ubíqua.** Os termos do glossário aparecem iguais no código, nos testes, na API e nesta spec.
 3. **Spec antes do código.** Cada critério de aceite vira ao menos um teste, escrito antes da implementação.
 4. **Dinheiro é tipo próprio.** Valores em centavos dentro de `Money`; nunca `double` ou `float`.

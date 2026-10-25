@@ -174,7 +174,7 @@ beneficios-service/
 │   └── config/                  fiação dos beans
 ├── src/main/resources/          application.yml
 ├── src/test/java/dev/beneficios/
-└── docs/                        adr/, diario-ia.md, specs exportadas
+└── docs/                        adr/, specs/, diario-ia.md
 ```
 
 Os testes espelham os pacotes: domínio e casos de uso sem Spring; API e Resilience4j com contexto Spring. O `ArchitectureTest` cobre toda a regra de dependência da tabela acima.
@@ -215,7 +215,7 @@ Decisões confirmadas em 25/10/2026. Cada uma vira um ADR em docs/adr/ na tarefa
 
 ## Incrementos e tarefas
 
-Só o incremento 1 está detalhado. Cada incremento seguinte ganha suas próprias histórias, critérios e tarefas nesta spec antes de começar.
+Só o incremento 1 está detalhado aqui. Cada funcionalidade dos incrementos seguintes ganha a sua própria spec em `docs/specs/`, com histórias, critérios e tarefas, antes de começar (princípio 8).
 
 | Incremento | Semanas | Escopo |
 | --- | --- | --- |

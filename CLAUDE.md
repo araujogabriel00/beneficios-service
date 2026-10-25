@@ -1,3 +1,7 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 # beneficios-service
 
 Serviço de benefícios (vale-refeição e vale-alimentação). A fonte da verdade é `spec.md`; leia-a antes de mudar comportamento. Domínio e dados são inventados.
@@ -5,7 +9,24 @@ Serviço de benefícios (vale-refeição e vale-alimentação). A fonte da verda
 ## Comandos
 
 - `./gradlew build` — compila e roda todos os testes (precisa de JDK 21; a toolchain está configurada).
-- `./gradlew bootRun` — sobe a API; Swagger em `/swagger-ui`.
+- `./gradlew bootRun` — sobe a API em `localhost:8080`; Swagger em `/swagger-ui`.
+- `./gradlew test --tests '*PurchaseServiceTest'` — uma classe de teste; `--tests '*PurchaseServiceTest.ca_03_1*'` filtra por método/critério.
+- Não há linter nem formatter configurado.
+
+## Arquitetura (visão geral)
+
+Módulo Gradle único, pacote raiz `dev.beneficios`: `domain` → `ports` (inbound = casos de uso, outbound = repositórios, antifraude, publicador de eventos) → `application/service` (implementa os `ports.inbound`) → `adapters` (REST e saída) → `config`. Os services são POJOs sem Spring; `config/BeansConfig` instancia tudo na mão e é o único lugar que conhece adaptadores e services juntos.
+
+Pontos que exigem ler vários arquivos:
+- **Concorrência (in-memory, D-04):** `WalletLocks` dá um monitor por `WalletId`; `WalletService` e `PurchaseService` compartilham a mesma instância e fazem `synchronized` nela ao alterar saldo. Autorizar altera `Wallet` e cria `Authorization` sob o mesmo lock.
+- **Idempotência:** crédito guarda a chave dentro da `Wallet`; autorização usa `AuthorizationRepository.findByIdempotencyKey` mais o conjunto `inFlight` do `PurchaseService` (chave em processamento → 409; mesma chave com outro conteúdo → 422).
+- **Eventos:** o agregado acumula eventos; o service chama `wallet.pullEvents()` e publica via `DomainEventPublisher` depois de salvar.
+- **Antifraude:** `ResilientAntifraudAdapter` (Retry → CircuitBreaker → timeout) envolve um `AntifraudClient`; o fallback da RN-06 (aprova até R$ 100,00) fica fora do Retry. Parâmetros em `BeansConfig`.
+- **Erros → HTTP:** exceções de `domain.exception` e `application.exception` são mapeadas para Problem Details em `ApiExceptionHandler`.
+
+## Onde está o quê
+
+`spec.md` (serviço e incremento 1: regras RN-xx, critérios CA-xx.y, tarefas) · `docs/specs/` (uma spec por funcionalidade nova) · `docs/adr/` (decisões) · `docs/diario-ia.md` (uso de IA).
 
 ## Regras (Constituição da spec)
 
